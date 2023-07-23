@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if is_state %}State: {{ state_name }}{% else %}{{ state_name }}{% endif %}</title>
+</head>
+<body>
+    <h1>{% if is_state %}State: {{ state_name }}{% else %}{{ state_name }}{% endif %}</h1>
+    {% if is_state %}
+        <h3>Cities:</h3>
+        <ul>
+            {% for item in data %}
+            <li><b>{{ item.id }}: {{ item.name }}</b></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
