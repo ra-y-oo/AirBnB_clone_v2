@@ -1,16 +1,22 @@
-from flask import Flask, jsonify, request
-from models import storage
+from flask import Flask, jsonify, request, render_template
+from models.engine.db_storage import DBStorage
+from models import State
+
 
 app = Flask(__name__)
+#initialize the storage instance
+storage = DBStorage()
 
 storage.reload()
 
-@app.route('/states_list', strict_slashes=False, methods=['GET'])
-def get_items():
-    # Fetch data from the storage engine using storage.all(...)
-    all_items = storage.all()
-    items = [item.to_dict() for item in all_items.values()]
-    return jsonify(items)
+@app.route('/states_list', methods=['GET'], strict_slashes=False)
+def states_list():
+    # Fetch all State objects from the storage and sort them by name
+    states = sorted(storage.all(State).values(), key=lambda state: state.name)
+
+    # Render the HTML template with the list of states
+    return render_template('states_list.html', states=states)
+
 
 @app.teardown_appcontext
 def teardown_appcontext(exception):
