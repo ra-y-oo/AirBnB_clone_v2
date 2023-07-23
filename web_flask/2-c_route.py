@@ -11,5 +11,10 @@ def hello_world():
 def hbnb():
     return 'HBNB'
 
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    formatted = text.replace('_', ' ')
+    return f"C {formatted}"
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
