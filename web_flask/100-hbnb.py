@@ -8,18 +8,17 @@ from models import storage, State, Amenity
 
 app = Flask(__name__)
 
-@app.route('/hbnb', methods=['GET'])
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
+    """display a HTML page like 6-index.html from static"""
     states = storage.all(State).values()
-    sorted_states = sorted(states, key=lambda state: state.name)
-
     amenities = storage.all(Amenity).values()
-    sorted_amenities = sorted(amenities, key=lambda amenity: amenity.name)
 
-    return render_template('100-hbnb.html', states=sorted_states, amenities=sorted_amenities)
+    return render_template('100-hbnb.html', states=states, amenities=amenities)
 
 @app.teardown_appcontext
 def teardown_appcontext(exception):
+    """closes the storage on teardown"""
     storage.close()
 
 
